@@ -1,0 +1,23 @@
+name: "Simple Semver"
+description: "Simple action to increment a semver version"
+branding:
+  color: blue
+  icon: award
+inputs:
+  increment:
+    description: (m)ajor, m(i)nor or (p)atch
+    required: true
+    default: "p"
+  semver-input:
+    description: Semver input, e.g. 1.2.3
+    required: true
+outputs:
+  semver:
+    description: Updated semver string
+    value: ${{ steps.simple-semver.outputs.semver-output }}
+runs:
+  using: composite
+  steps:
+    - id: simple-semver
+      run: echo "::set-output name=semver-output::$(${{ github.action_path}}/simplesemver.sh -${{ inputs.increment }} -v ${{ inputs.semver-input }} )"
+      shell: bash
